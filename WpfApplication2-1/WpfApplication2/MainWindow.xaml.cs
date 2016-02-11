@@ -306,7 +306,7 @@ namespace WpfApplication2
 
                     attitudeInd.Roll = float.Parse(data.Split(',')[2]);
 
-                    attitudeInd.Yaw = float.Parse(data.Split(',')[3]);
+                    attitudeInd.Yaw = float.Parse(data.Split(',')[0]);
 
                     break;
 
