@@ -94,6 +94,21 @@ namespace WpfApplication2
             }
         }
 
+        private float _Yaw = 0;
+        public float Yaw
+        {
+            get
+            {
+                return _Yaw;
+            }
+            set
+            {
+                _Yaw = value;
+                Dispatcher.Invoke(() => attitudeGrid.RenderTransform = new RotateTransform(_Yaw, 190, 190));
+                Dispatcher.Invoke(() => yawLabel.Content = (int)_Yaw);
+            }
+        }
+
         public UserControl1()
         {
             InitializeComponent();
@@ -104,6 +119,7 @@ namespace WpfApplication2
             Roll = 0;
             leftPitch = 0;
             rightPitch = 0;
+            Yaw = 0;
         }
         }
 

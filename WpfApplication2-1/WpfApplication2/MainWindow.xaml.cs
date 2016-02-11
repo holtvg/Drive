@@ -27,11 +27,12 @@ namespace WpfApplication2
     public partial class MainWindow : Window
     {
         private IrisClient irisClient;
-      //  String target = "127.0.0.1";
+        String target = "127.0.0.1";
         //  String target = "155.99.9.29";
-        String target = "50.28.225.39";
+       // String target = "50.28.225.39";
         int port = 3670;
-
+        private double RoverLatitude = 0.0;
+        private double RoverLongitude = 0.0;
         //BackgroundWorker joyStickThread = new BackgroundWorker();
 
         //DirectInput DI;
@@ -285,8 +286,12 @@ namespace WpfApplication2
                     //viewModel.RoverLatitude = double.Parse(data.Split(',')[0]);
                     //viewModel.RoverLongitude = double.Parse(data.Split(',')[1]);
                     //  mapDisplay.RoverLocation = new double[] { viewModel.RoverLatitude, viewModel.RoverLongitude };
-                  //  mapDisplay.RoverLatitude = double.Parse(data.Split(',')[0]);
-                    // mapDisplay.RoverLocation = new double[] { viewModel.RoverLatitude, viewModel.RoverLongitude };
+                    RoverLongitude = double.Parse(data.Split(',')[1]);
+                    RoverLatitude = double.Parse(data.Split(',')[0]);
+                    Dispatcher.Invoke(() => mapDisplay.RoverLocation = new double[] { RoverLatitude, RoverLongitude });
+                    Dispatcher.Invoke(() => mapDisplay.Center = new double[] { RoverLatitude, RoverLongitude });
+                    Dispatcher.Invoke(() => pitchLabel_Copy1.Content = RoverLatitude);
+                    Dispatcher.Invoke(() => pitchLabel_Copy2.Content = RoverLongitude);
                     break;
 
                 case "ATT_L":
@@ -300,6 +305,8 @@ namespace WpfApplication2
                     attitudeInd.rightPitch = float.Parse(data.Split(',')[1]);
 
                     attitudeInd.Roll = float.Parse(data.Split(',')[2]);
+
+                    attitudeInd.Yaw = float.Parse(data.Split(',')[3]);
 
                     break;
 
