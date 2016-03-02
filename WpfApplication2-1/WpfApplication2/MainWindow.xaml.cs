@@ -65,8 +65,8 @@ namespace WpfApplication2
         public MainWindow()
         {
             InitializeComponent();
-
             
+
             irisClient = new IrisClient(100, IPAddress.Parse(target),port);
             irisClient.dataReceivedFromServer += IrisClient_dataReceivedFromServer;
             irisClient.connectionStatusChanged += testClient_connectionStatusChanged;
@@ -144,9 +144,10 @@ namespace WpfApplication2
             }
             testJoystick.throttleChanged += testJoystick_throttleChanged;
             testJoystick.axisInputChanged += testJoystick_axisInputChanged;
-          //  joyStickVisualizer.logitechX3DJoyStickSource = testJoystick;
-         //   HAC.deviceListUpdated += HAC_deviceListUpdated;
-         //   HAC.start();
+            //  joyStickVisualizer.logitechX3DJoyStickSource = testJoystick;
+            //   HAC.deviceListUpdated += HAC_deviceListUpdated;
+            //   HAC.start();
+            axisCameraStream.OpenFeed();
         }
 
         //private void HAC_deviceListUpdated(bool connected, string comName)
@@ -240,8 +241,15 @@ namespace WpfApplication2
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
-         //   HAC.Dispose();
+         //   axisCameraStream.CloseFeed();
+            //   HAC.Dispose();
         }
+
+        //private void Window_Closed(object sender, EventArgs e)
+        //{
+        //    axisCameraStream.CloseFeed();
+        //    //   HAC.Dispose();
+        //}
 
 
 
@@ -312,6 +320,16 @@ namespace WpfApplication2
 
                 case "PB_Current":
                     Console.WriteLine("Power Board Current: {0}", data);
+                    break;
+
+                case "VS_C":
+                    //if (Terminal.Drive != (Terminal)int.Parse(data.Split(',')[0])) break;
+                    //axisCameraStream.Camera = (AxisCamera)int.Parse(data.Split(',')[1]);
+                    //axisCameraStream.Resolution = (AxisResolution)int.Parse(data.Split(',')[2]);
+                    //axisCameraStream.FPS = int.Parse(data.Split(',')[3]);
+                    //axisCameraStream.Compression = int.Parse(data.Split(',')[4]);
+                    //axisCameraStream.CloseFeed();
+                    //axisCameraStream.OpenFeed();
                     break;
 
                 default:
