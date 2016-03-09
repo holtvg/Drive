@@ -27,23 +27,18 @@ namespace WpfApplication2
     public partial class MainWindow : Window
     {
         private IrisClient irisClient;
-        String target = "127.0.0.1";
+        //  String target = "127.0.0.1";
         //  String target = "155.99.9.29";
-       // String target = "50.28.225.39";
+        // String target = "50.28.225.39";
+         String target = "192.168.1.151";
+       // String target = "155.99.10.112";
         int port = 3670;
         private double RoverLatitude = 0.0;
         private double RoverLongitude = 0.0;
-        //BackgroundWorker joyStickThread = new BackgroundWorker();
 
-        //DirectInput DI;
-        //Joystick JS;
-        //Guid joystickGUID;
-
-        //  float xVal;
 
         logitechX3D testJoystick;
-     //   hermesAnyConnect HAC = hermesAnyConnect.getInstance();
-      //  Device testTeensy;
+
 
 
         readonly double xRange = 500;
@@ -65,71 +60,13 @@ namespace WpfApplication2
         public MainWindow()
         {
             InitializeComponent();
-            
+            axisCameraStream.OpenFeed();
 
             irisClient = new IrisClient(100, IPAddress.Parse(target),port);
             irisClient.dataReceivedFromServer += IrisClient_dataReceivedFromServer;
             irisClient.connectionStatusChanged += testClient_connectionStatusChanged;
 
-            //DI = new DirectInput();
-            //joystickGUID = getGUID();
 
-            //JS = new Joystick(DI, joystickGUID);
-            //JS.Acquire();
-
-            //joyStickThread.WorkerReportsProgress = true;
-            //joyStickThread.WorkerSupportsCancellation = true;
-            //joyStickThread.DoWork += new DoWorkEventHandler(monitorJoystick);
-            //joyStickThread.ProgressChanged += joyStickThread_ProgressChanged;
-            //joyStickThread.RunWorkerAsync();
-
-            //var directInput = new DirectInput();
-
-
-            //var joystickGuid = Guid.Empty;
-
-            //foreach (var deviceInstance in directInput.GetDevices(DeviceType.Gamepad,
-            //            DeviceEnumerationFlags.AllDevices))
-            //    joystickGuid = deviceInstance.InstanceGuid;
-
-
-            //if (joystickGuid == Guid.Empty)
-            //    foreach (var deviceInstance in directInput.GetDevices(DeviceType.Joystick,
-            //            DeviceEnumerationFlags.AllDevices))
-            //        joystickGuid = deviceInstance.InstanceGuid;
-
-
-            //if (joystickGuid == Guid.Empty)
-            //{
-            //    Console.WriteLine("No joystick/Gamepad found.");
-            //    Console.ReadKey();
-            //    Environment.Exit(1);
-            //}
-
-
-            //var joystick = new Joystick(directInput, joystickGuid);
-
-            //Console.WriteLine("Found Joystick/Gamepad with GUID: {0}", joystickGuid);
-
-
-            //var allEffects = joystick.GetEffects();
-            //foreach (var effectInfo in allEffects)
-            //    Console.WriteLine("Effect available {0}", effectInfo.Name);
-
-
-            //joystick.Properties.BufferSize = 128;
-
-
-            //joystick.Acquire();
-
-
-            //while (true)
-            //{
-            //    joystick.Poll();
-            //    var datas = joystick.GetBufferedData();
-            //    foreach (var state in datas)
-            //        Console.WriteLine(state);
-            //}
         }
 
 
@@ -144,41 +81,16 @@ namespace WpfApplication2
             }
             testJoystick.throttleChanged += testJoystick_throttleChanged;
             testJoystick.axisInputChanged += testJoystick_axisInputChanged;
-            //  joyStickVisualizer.logitechX3DJoyStickSource = testJoystick;
-            //   HAC.deviceListUpdated += HAC_deviceListUpdated;
-            //   HAC.start();
-            axisCameraStream.OpenFeed();
+
+          //  axisCameraStream.OpenFeed();
         }
 
-        //private void HAC_deviceListUpdated(bool connected, string comName)
-        //{
-        //    // MessageBox.Show("Conn: " + connected + " COM: " + comName);
-        //    Console.WriteLine("Conn: " + connected + " COM: " + comName);
-        //    if (connected && testTeensy == null)
-        //    {
-        //        testTeensy = HAC.DeviceList[comName];
-        //        //Chatter_ConnectionStatusChanged(testTeensy.clientConnected);
-        //        testTeensy.connectionStatusChanged += Chatter_ConnectionStatusChanged;
-        //        testTeensy.messageReceived += Chatter_MessageReceived;
-        //    }
-        //}
+
         private void Chatter_MessageReceived(string ID, string data)
         {
             Console.WriteLine("REC-->\nID: " + ID + " Data: " + data + "\n");
         }
 
-        //private void Chatter_ConnectionStatusChanged(bool connected)
-        //{
-        //    Console.WriteLine("HIT");
-        //    if (connected)
-        //    {
-        //        Dispatcher.Invoke(() => connectedEllipse.Fill = Brushes.Green);
-        //    }
-        //    else
-        //    {
-        //        Dispatcher.Invoke(() => connectedEllipse.Fill = Brushes.Red);
-        //    }
-        //}
 
 
         private void testJoystick_axisInputChanged(logitechX3D.axisID ID, double percentage)
@@ -215,12 +127,12 @@ namespace WpfApplication2
                         break;
                 }
 
-             //   if (testTeensy != null)
+             
                 
                     String toSend = xVal + "," + yVal + "," + zVal;
                     Console.WriteLine("Sending: " + toSend);
-                  //  testTeensy.sendMessage("jxyz", toSend);
-                    irisClient.sendData("jxyz", toSend);
+                  
+                    irisClient.sendData("JXYZ", toSend);
                 
             }
         }
@@ -235,20 +147,20 @@ namespace WpfApplication2
             zVal = (int)(zPer * throttlePer);
             String toSend = xVal + "," + yVal + "," + zVal;
             Console.WriteLine(toSend);
-            irisClient.sendData("jxyz", toSend);
+            irisClient.sendData("JXYZ", toSend);
             //   testTeensy.sendMessage("jxyz", toSend);
         }
 
         private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
         {
          //   axisCameraStream.CloseFeed();
-            //   HAC.Dispose();
+            
         }
 
         //private void Window_Closed(object sender, EventArgs e)
         //{
         //    axisCameraStream.CloseFeed();
-        //    //   HAC.Dispose();
+        
         //}
 
 
@@ -331,7 +243,19 @@ namespace WpfApplication2
                     //axisCameraStream.CloseFeed();
                     //axisCameraStream.OpenFeed();
                     break;
+                case "VS_R":
 
+                case "DLOCK":
+                    bool locked = bool.Parse(data);
+                    if (locked){
+                        //   engage = true;
+                        Dispatcher.Invoke(() => connectionindicator_Copy.Fill = new SolidColorBrush(Colors.Green));
+                    }
+                    else {
+                        //   engage = false;
+                        Dispatcher.Invoke(() => connectionindicator_Copy.Fill = new SolidColorBrush(Colors.Red));
+                    }
+                    break;
                 default:
                     Console.WriteLine("Unknown command: {0}|{1}", ID, data);
                     break;
@@ -339,104 +263,7 @@ namespace WpfApplication2
         }
 
 
-        //private Guid getGUID()
-        //{
-        //    Guid jsGuid = Guid.Empty;
-        //    foreach (DeviceInstance deviceInstance in DI.GetDevices(DeviceType.Gamepad, DeviceEnumerationFlags.AllDevices))
-        //    {
-        //        jsGuid = deviceInstance.InstanceGuid;
-        //        Console.WriteLine("Product Name: " + deviceInstance.ProductName);
-        //    }
 
-        //    // If Gamepad not found, look for a Joystick
-        //    if (jsGuid == Guid.Empty)
-        //        foreach (DeviceInstance deviceInstance in DI.GetDevices(DeviceType.Joystick, DeviceEnumerationFlags.AllDevices))
-        //        {
-        //            jsGuid = deviceInstance.InstanceGuid;
-        //            Console.WriteLine("Product Name: " + deviceInstance.ProductName);
-        //        }
-
-        //    // If Joystick not found, throws an error
-        //    if (jsGuid == Guid.Empty)
-        //    {
-        //        MessageBox.Show("Unable to find a joystick...");
-        //        Environment.Exit(0);
-        //    }
-        //    return jsGuid;
-        //}
-
-        //private void monitorJoystick(object sender, DoWorkEventArgs e)
-        //{
-        //    while (true)
-        //    {
-        //        joyStickThread.ReportProgress(1, JS.GetCurrentState()); //the number doesnt matter here...
-        //        Thread.Sleep(50);
-        //    }
-        //}
-
-        //void joyStickThread_ProgressChanged(object sender, ProgressChangedEventArgs e)
-        //{
-        //    JoystickState js = (JoystickState)e.UserState;
-        //  //  Action updateGUI = delegate
-        //    {
-        //        //xValTextBox.Content = js.X;
-        //        //yValTextBox.Content = js.Y;
-        //        //twistValTextBox.Content = js.RotationZ; //Twist
-        //        //leftThrotValTextBox.Content = js.Z; //WHY!?!?!?!
-        //        //rightThrotValTextBox.Content = js.Sliders[0];
-
-        //         xVal = js.X;
-        //      //  string xval = Convert.ToString(xVal);
-        //       // irisClient.sendData("xVal", xval);
-
-        //        float yVal= js.Y;
-        //        string yval = Convert.ToString(yVal);
-        //     //   irisClient.sendData("yVal", yval);
-        //        float twistVal = js.RotationZ; //Twist
-        //        string twistval = Convert.ToString(twistVal);
-        //      //  irisClient.sendData("twistVal", twistval);
-        //        float leftThrotVal = js.Z; //WHY!?!?!?!
-        //        string leftthrotval = Convert.ToString(leftThrotVal);
-        //     //   irisClient.sendData("leftThrotVal", leftthrotval);
-        //        float rightThrotVal = js.Sliders[0];
-        //        string rightthrotval = Convert.ToString(rightThrotVal);
-        //      //  irisClient.sendData("rightThrotVal", rightthrotval);
-
-        //        //Console.WriteLine("hat: " + js.PointOfViewControllers[0]);
-        //        string res = "";
-        //        bool[] buttonRes = js.Buttons;
-        //        for (int buttonIndex = 0; buttonIndex < buttonRes.Length; buttonIndex++)
-        //        {
-        //            if (buttonRes[buttonIndex])
-        //            {
-        //                res += " " + buttonIndex + " ";
-        //            }
-        //        }
-        //        if (res != "")
-        //        {
-        //            Console.WriteLine(res);
-        //          //  irisClient.sendData("button", res);
-        //        }
-        //    };
-        // //   Dispatcher.Invoke(updateGUI);
-        //}
-
-
-
-         
-        //public float changed
-        //{
-        //    get { return xVal; }
-        //    set
-        //    {
-        //        xVal = value;
-        //        if (xVal == 1)
-        //        {
-        //            string xval = Convert.ToString(xVal);
-        //            irisClient.sendData("xVal", xval);
-        //        }
-        //    }
-        //}
 
 
         private void Window_KeyDown(object sender, KeyEventArgs e)
@@ -444,15 +271,6 @@ namespace WpfApplication2
 
         }
 
-        //private void Window_Loaded(object sender, RoutedEventArgs e)
-        //{
-
-        //}
-
-        //private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
-        //{
-
-        //}
 
         private void videoToggle_Click(object sender, RoutedEventArgs e)
         {

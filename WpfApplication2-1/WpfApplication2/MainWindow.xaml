@@ -19,7 +19,7 @@
             </Grid.RowDefinitions>
 
             <!-- Video Stream -->
-            <roboUtes:AxisCameraStream Name="axisCameraStream" IpAddress="192.168.1.100" Port="36005" Camera="TWO" Resolution="MED_480" Compression="50" FPS="24" IsDebugging="True" Margin="0,10,0,17" Grid.RowSpan="2" />
+            <roboUtes:AxisCameraStream Name="axisCameraStream" IpAddress="192.168.1.150" Port="36005" Camera="ONE" Resolution="MED_480" Compression="50" FPS="24" IsDebugging="True" Margin="0,10,0,17" Grid.RowSpan="2" />
             <!-- End of Video Stream-->
             <attitudeControl:UserControl1 x:Name="attitudeInd" HorizontalAlignment="Left" VerticalAlignment="Top" Height="437.217" Width="570" Background="{x:Null}" Margin="10,10,0,0"/>
             <headingControl:UserControl2 x:Name="headingInd" VerticalAlignment="Top" Height="332.729" Background="{x:Null}" Margin="569.828,0,446.778,0"/>
@@ -100,6 +100,8 @@
                     </TransformGroup>
                 </Rectangle.RenderTransform>
             </Rectangle>
+            <Label Content="Drive Lock:" HorizontalAlignment="Left" Margin="2178,67,0,0" VerticalAlignment="Top" Background="{x:Null}" Foreground="White" FontWeight="Bold" Width="110" Grid.Row="2"/>
+            <Ellipse x:Name="connectionindicator_Copy" HorizontalAlignment="Left" Margin="2270,58,0,0" Grid.Row="2" Stroke="#FF807676" Width="45" Fill="Red" StrokeThickness="5" RenderTransformOrigin="6.707,-0.94" Height="48" VerticalAlignment="Top"/>
 
         </Grid>
     </Viewbox>
